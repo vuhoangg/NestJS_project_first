@@ -17,5 +17,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": ["src/**/*"],                   // Đường dẫn tới các file bạn muốn biên dịch
+  "exclude": ["node_modules"]
 }
