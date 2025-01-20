@@ -46,29 +46,29 @@ export class User {
   @Prop()
   updateAt: Date;
 
-  @Prop()
-  isDeleted: boolean;
+  // @Prop()
+  // isDeleted: boolean;
 
-  @Prop()
-  deleteAt: Date;
+  // @Prop()
+  // deleteAt: Date;
 
-  @Prop({ type: Object })
-  createdBy:{
-    _id :  mongoose.Schema.Types.ObjectId;
-    email: string ;
-  }
+  // @Prop({ type: Object })
+  // createdBy:{
+  //   _id :  mongoose.Schema.Types.ObjectId;
+  //   email: string ;
+  // }
 
-  @Prop({ type: Object })
-  updatedBy:{
-    _id :  mongoose.Schema.Types.ObjectId;
-    email: string;
-  }
+  // @Prop({ type: Object })
+  // updatedBy:{
+  //   _id :  mongoose.Schema.Types.ObjectId;
+  //   email: string;
+  // }
 
-  @Prop({ type: Object })
-  DeletedBy:{
-    _id : mongoose.Schema.Types.ObjectId;
-    email: string;
-  }
+  // @Prop({ type: Object })
+  // DeletedBy:{
+  //   _id : mongoose.Schema.Types.ObjectId;
+  //   email: string;
+  // }
 
 
 

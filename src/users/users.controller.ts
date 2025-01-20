@@ -8,14 +8,17 @@ import { IUser } from './users.interface';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
+  
+  // create user api/v1/user
   @Version('1')
+  @Public()
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-
+  // create user api/v2/user
   @Version('2')
+  @Public()
   @Post()
   async  create2(@Body() createUserDto: CreateUserDto, @User() user : IUser ) {
     let newUser = await this.usersService.create2(createUserDto, user);
@@ -25,6 +28,7 @@ export class UsersController {
     }
   }
 
+  @Version('1')
   @Public()
   @Get()
   findAll(
@@ -34,6 +38,13 @@ export class UsersController {
 
   ) {
     return this.usersService.findAll(+currentPage,+limit,qs);
+  }
+
+  @Version('2')
+  @Public()
+  @Get()
+  findAllBase() {
+    return this.usersService.findAll2();
   }
 
 
@@ -47,10 +58,12 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
   @Version('1')
+  @Public()
   @Patch(':id')
    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
+
   @Version('2')
   @Patch(':id')
   async update2(
@@ -60,7 +73,7 @@ export class UsersController {
     let updateUser = await this.usersService.update2( id, updateUserDto, user);
     return updateUser ;
   }
-
+  @Public()
   @Version('1')
   @Delete(':id')
   remove(@Param('id') id: string) {

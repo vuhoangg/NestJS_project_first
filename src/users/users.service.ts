@@ -33,11 +33,14 @@ export class UsersService {
     let user = await this.userModel.create({ 
       email: createUserDto.email, 
       password : hashPassword,
-      name: createUserDto.name
+      name: createUserDto.name,
+      address: createUserDto.address,
     })
     console.log("check user ", user );
     return  user ;
   }
+
+
   async create2(createUserDto: CreateUserDto, user: IUser  ) {
     const {name, email, password, age, gender, address, role, company  } = createUserDto  ; 
     const isExist = await this.userModel.findOne({email})
@@ -120,6 +123,15 @@ export class UsersService {
  
   }
 
+  async findAll2() {
+    try {
+      return await this.userModel.find(); // Lấy toàn bộ dữ liệu từ bảng User
+    } catch (error) {
+      throw new Error(`Error fetching users: ${error.message}`);
+    }
+  }
+
+
   async findOne(id: string) {
     if(!mongoose.Types.ObjectId.isValid(id)){
       return 'not found';
@@ -172,9 +184,11 @@ export class UsersService {
     const updatedUser = await this.userModel.findByIdAndUpdate(
       id,
       {
+        // _id : updateUserDto._id,
         email: updateUserDto.email,
         password: hashPassword,
         name: updateUserDto.name,
+        address: updateUserDto.address,
       },
       { new: true } // `new: true` để trả về tài liệu sau khi cập nhật
     );
