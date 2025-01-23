@@ -9,35 +9,28 @@ import { IUser } from './users.interface';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // api v1 
   @Version('1')
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
-  @Version('2')
-  @Post()
-  async  create2(@Body() createUserDto: CreateUserDto, @User() user : IUser ) {
-    let newUser = await this.usersService.create2(createUserDto, user);
+  async  create(@Body() createUserDto: CreateUserDto, @User() user : IUser ) {
+    let newUser = await this.usersService.create(createUserDto, user);
     return {
       _id : newUser?._id,
       createAt : newUser?.createAt
     }
   }
 
-  @Public()
+  @Version('1')
   @Get()
   findAll(
     @Query("current") currentPage : string ,
     @Query("pageSize" )limit : string ,
     @Query() qs :string, 
-
   ) {
     return this.usersService.findAll(+currentPage,+limit,qs);
   }
 
-
-  @Public()
+  @Version('1')
   @Get(':id')
   async findOne(
     @Param('id') id: string
@@ -46,32 +39,57 @@ export class UsersController {
 
     return this.usersService.findOne(id);
   }
+
+ 
+
+  // @Version('3')
+  // @Patch(':id')
+  // async update3(
+  //   @Param('id') id: string,
+  //   @Body() updateUserDto: UpdateUserDto, 
+  //   @User() user : IUser) {
+  //   let updateUser = await this.usersService.update3( id, updateUserDto, user);
+  //   return updateUser ;
+  // }
+
   @Version('1')
-  @Patch(':id')
-   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
-  }
-  @Version('2')
-  @Patch(':id')
-  async update2(
-    @Param('id') id: string,
+  @Patch()
+  async update(
     @Body() updateUserDto: UpdateUserDto, 
-    @User() user : IUser) {
-    let updateUser = await this.usersService.update2( id, updateUserDto, user);
+    @User() user: IUser) {
+    let updateUser = await this.usersService.update(  updateUserDto, user);
     return updateUser ;
   }
 
   @Version('1')
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  remove(
+  @Param('id') id: string,
+   @User() user : IUser) {
+    return this.usersService.remove(id, user );
+  }
+
+
+  // api v2
+
+  @Version('2')
+  @Post()
+  create2(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create2(createUserDto);
   }
 
   @Version('2')
-  @Delete(':id')
-  remove2(
-  @Param('id') id: string,
-   @User() user : IUser) {
-    return this.usersService.remove2(id, user );
+  @Patch(':id')
+   update2(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update2(id, updateUserDto);
   }
+
+
+  @Version('2')
+  @Delete(':id')
+  remove2(@Param('id') id: string) {
+    return this.usersService.remove2(id);
+  }
+
+
 }

@@ -23,9 +23,9 @@ export class User {
   phone: string;
 
   @Prop({type: Object})
-  Company : {
+  company : {
     _id :  mongoose.Schema.Types.ObjectId;
-    email: string ;
+    name: string ;
   }
 
   @Prop()

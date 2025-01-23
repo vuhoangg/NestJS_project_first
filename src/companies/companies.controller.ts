@@ -10,12 +10,10 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Post()
-  @Public()
   create(@Body() createCompanyDto: CreateCompanyDto, @User() user : IUser) {
     console.log("check information : user ", user );
     return this.companiesService.create(createCompanyDto, user );
   }
-
 
   // @Version('1')
   // @Get()
@@ -27,9 +25,8 @@ export class CompaniesController {
   // ) {
   //   return this.companiesService.findAll(+currentPage,+limit, qs );
   // }
-  @Version('2')
+  @Version('1')
   @Get()
-
   @ResponseMessage("Fetch list company with paginate")
   findAll2(
     @Query("page") currentPage: string,

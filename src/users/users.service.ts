@@ -19,15 +19,15 @@ export class UsersService {
   constructor(
   @InjectModel(UserM.name) 
   private userModel: SoftDeleteModel<UserDocument>) {}
-
   gethashPassword = (password: string) =>{
-
     const salt = genSaltSync(10);
     const hash = hashSync(password, salt);
     return hash;
   }
 
-  async create(createUserDto: CreateUserDto ) {
+
+
+  async create2(createUserDto: CreateUserDto ) {
     const hashPassword = this.gethashPassword(createUserDto.password);
 
     let user = await this.userModel.create({ 
@@ -38,7 +38,9 @@ export class UsersService {
     console.log("check user ", user );
     return  user ;
   }
-  async create2(createUserDto: CreateUserDto, user: IUser  ) {
+
+
+  async create(createUserDto: CreateUserDto, user: IUser  ) {
     const {name, email, password, age, gender, address, role, company  } = createUserDto  ; 
     const isExist = await this.userModel.findOne({email})
     if (isExist){
@@ -53,10 +55,7 @@ export class UsersService {
        gender,
         address,
         role, 
-        company:{
-          _id: mongoose.Schema.Types.ObjectId,
-          name : company.name 
-        },
+        company,
         createdBy:{
           _id: user._id,
           name : user.name 
@@ -64,6 +63,7 @@ export class UsersService {
     })
     return newUser ;
   }
+
 
   async register (user : RegisterUserDto) {
     const {name, email, password, age, gender, address }= user ; 
@@ -150,7 +150,7 @@ export class UsersService {
 
 
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update2(id: string, updateUserDto: UpdateUserDto) {
     // Kiểm tra tính hợp lệ của ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return { message: 'Invalid user ID' };
@@ -182,63 +182,65 @@ export class UsersService {
     return updatedUser;
   }
 
-  async update2(id: string, updateUserDto: UpdateUserDto, user: IUser) {
-    const { name, email, password, age, gender, address, role, company } = updateUserDto;
-  
-    // Kiểm tra người dùng có tồn tại
-    const existingUser = await this.userModel.findById(id);
-    if (!existingUser) {
-      throw new BadRequestException(`Người dùng với ID ${id} không tồn tại`);
-    }
+  // async update3(id: string, updateUserDto: UpdateUserDto, user: IUser) {
+  //   const { name, email, password, age, gender, address, role, company } = updateUserDto;
 
-    // // Hash mật khẩu nếu có
-    const hashPassword = password ? this.gethashPassword(password) : existingUser.password;
+  //   const existingUser = await this.userModel.findById(id);
+  //   if (!existingUser) {
+  //     throw new BadRequestException(`Người dùng với ID ${id} không tồn tại`);
+  //   }
+  //   const hashPassword = password ? this.gethashPassword(password) : existingUser.password;
+  //   let updateUser = await this.userModel.updateOne(
+  //     { _id: id },
+  //     {
+  //       name,
+  //       email,
+  //       password: hashPassword,
+  //       age,
+  //       gender,
+  //       address,
+  //       role,
+  //       company:{
+  //         _id: company._id,
+  //         name: company.name,
+  //       },
+  //       updatedBy: {
+  //         _id: user._id,
+  //         name: user.name,
+  //       },
+  //     }
+  //   );
   
-    
-   
-    
-    // Cập nhật thông tin người dùng
-    let updateUser = await this.userModel.updateOne(
-      { _id: id },
+  //   return updateUser;
+  // }
+
+  async update (updateUserDto: UpdateUserDto, user: IUser) {
+    return await this.userModel.updateOne(
       {
-        name,
-        email,
-        password: hashPassword,
-        age,
-        gender,
-        address,
-        role,
-        company:{
-          _id: company._id,
-          name: company.name,
-        },
-        updatedBy: {
+        _id: updateUserDto._id,
+      },
+      {
+        ...updateUserDto,
+        updateBy: {
           _id: user._id,
-          name: user.name,
+          email: user.email,
         },
-      }
+      },
     );
-  
-    return updateUser;
   }
   
 
 
 
-  async remove(id: string) {
+  async remove2(id: string) {
     // Kiểm tra tính hợp lệ của ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return { message: 'Invalid user ID' };
     }
-  
-    // Tìm user trong cơ sở dữ liệu
     const existingUser = await this.userModel.findById(id);
     if (!existingUser) {
       return { message: 'User not found' };
     }
-  
-    // Xóa user bằng phương thức findByIdAndDelete
-    // Sử dụng softDelete
     const deletedUser = await this.userModel.softDelete({
       _id : id 
     });
@@ -250,7 +252,7 @@ export class UsersService {
     };
   }
 
-  async remove2(id: string, user: IUser) {
+  async remove(id: string, user: IUser) {
     // Kiểm tra xem người dùng cần xóa có tồn tại hay không
     const existingUser = await this.userModel.findById(id);
     if (!existingUser) {
