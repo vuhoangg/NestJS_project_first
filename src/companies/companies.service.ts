@@ -16,6 +16,8 @@ export class CompaniesService {
     private companyModel: SoftDeleteModel<CompanyDocument>) {
 
     }
+
+    
   async create(createCompanyDto: CreateCompanyDto, user :IUser  ) {
    
   

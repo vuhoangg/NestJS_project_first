@@ -15,16 +15,7 @@ export class CompaniesController {
     return this.companiesService.create(createCompanyDto, user );
   }
 
-  // @Version('1')
-  // @Get()
-  // @ResponseMessage("Fetch list company with paginate")
-  // findAll1(
-  //   @Query("current") currentPage: string,
-  //   @Query("pageSize") limit : string, 
-  //   @Query() qs: string
-  // ) {
-  //   return this.companiesService.findAll(+currentPage,+limit, qs );
-  // }
+ 
   @Version('1')
   @Get()
   @ResponseMessage("Fetch list company with paginate")

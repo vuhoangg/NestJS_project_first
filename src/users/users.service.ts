@@ -19,6 +19,7 @@ export class UsersService {
   constructor(
   @InjectModel(UserM.name) 
   private userModel: SoftDeleteModel<UserDocument>) {}
+  
   gethashPassword = (password: string) =>{
     const salt = genSaltSync(10);
     const hash = hashSync(password, salt);

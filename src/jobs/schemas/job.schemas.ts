@@ -10,7 +10,7 @@ export class Job {
   name: string;
 
   @Prop()
-  skills: string;
+  skills: string[] ;
 
 
   @Prop()
