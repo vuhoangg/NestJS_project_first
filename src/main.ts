@@ -18,8 +18,13 @@ async function bootstrap() {
   const mongoURI = app.get(ConfigService).get<string>('MONGO_URI') || 202 ;
 
   const reflector = app.get(Reflector);
+
   app.useGlobalGuards(new JwtAuthGuard(reflector));
   app.useGlobalPipes(new ValidationPipe());
+
+  app.useStaticAssets(join(__dirname, '..', 'public'));// js, css, imagess
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+ 
   // config Cookies 
   app.use(cookieParser());
   // config CORS 
