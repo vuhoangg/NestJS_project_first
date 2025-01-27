@@ -17,13 +17,14 @@ export class CompaniesService {
 
     }
 
-    
+
   async create(createCompanyDto: CreateCompanyDto, user :IUser  ) {
    
   
     console.log("check user ", user._id)
     return await this.companyModel.create({
       name : createCompanyDto.name ,
+      logo : createCompanyDto.logo ,
       address : createCompanyDto.address,
       description: createCompanyDto.description,
       createdBy: {
@@ -92,6 +93,7 @@ export class CompaniesService {
     id,
     {
       name :updateCompanyDto.name,
+      logo :updateCompanyDto.logo,
       address : updateCompanyDto.address,
       description: updateCompanyDto.description,
       updatedBy: {

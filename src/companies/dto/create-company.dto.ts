@@ -7,6 +7,8 @@ export class CreateCompanyDto {
 
     @IsNotEmpty()
     address : string ;
+
+    logo: string;
     
     description : string ;
 }
