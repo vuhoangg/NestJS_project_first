@@ -20,10 +20,10 @@ export class JobsService {
 
 
   async create(createJobDto: CreateJobDto, user: IUser ) {
-    const {name,skills , company, salary , quantity, level, description, startDate, endDate, isActive  } = createJobDto  ; 
+    const {name,skills , company, salary , quantity, level, description, startDate, endDate, isActive, location   } = createJobDto  ; 
     let newJob  = await this.jobModel.create({ 
         name,
-         skills,  company, salary , quantity, level, description, startDate, endDate, isActive,
+         skills,  company, salary , quantity, level, description, startDate, endDate, isActive,location ,
          createdBy:{
           _id: user._id,
           name : user.name 
@@ -101,11 +101,11 @@ export class JobsService {
      return { message: 'User not found' };
    }
 
-   const {name,skills , company, salary , quantity, level, description, startDate, endDate, isActive  } = updateJobDto  ;
+   const {name,skills , company, salary , quantity, level, description, startDate, endDate, isActive , location  } = updateJobDto  ;
    // update
    const updatedJob  = await this.jobModel.findByIdAndUpdate(id,
      {
-      name,skills , company, salary , quantity, level, description, startDate, endDate, isActive,
+      name,skills , company, salary , quantity, level, description, startDate, endDate, isActive, location ,
        updatedBy: {
          _id : user._id,
          email : user.email,

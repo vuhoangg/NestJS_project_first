@@ -20,6 +20,7 @@ export class JobsController {
   }
 
   @Version('1')
+  @Public()
   @Get()
   findAll(@Query("current") currentPage : string,
   @Query("pageSize") limit : string,
@@ -28,14 +29,15 @@ export class JobsController {
     return this.jobsService.findAll(+currentPage, +limit, qs );
   }
 
-  @Version('2')
+  @Version('1')
   @Patch(':id')
   update2(@Param('id') id: string, @Body() updateJobDto: UpdateJobDto, @User() user : IUser) {
     return this.jobsService.update2(id, updateJobDto, user );
   }
 
 
-  @Version('1')
+  @Version('2')
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.jobsService.findOne(id);
