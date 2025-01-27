@@ -19,7 +19,7 @@ export class UsersService {
   constructor(
   @InjectModel(UserM.name) 
   private userModel: SoftDeleteModel<UserDocument>) {}
-  
+
   gethashPassword = (password: string) =>{
     const salt = genSaltSync(10);
     const hash = hashSync(password, salt);
@@ -137,7 +137,7 @@ export class UsersService {
 
   
 
-   // Hàm kiểm tra mật khẩu
+   // check password 
    isValidPassword(password: string, hash: string): boolean {
     console.log("Input Password:", password);
     console.log("Hashed Password:", hash);

@@ -10,6 +10,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { CompaniesModule } from './companies/companies.module';
 import { JobsModule } from './jobs/jobs.module';
+import { FilesModule } from './files/files.module';
 
 
 
@@ -30,7 +31,7 @@ import { JobsModule } from './jobs/jobs.module';
  
     
     ConfigModule.forRoot({ isGlobal: true,
-    }), UsersModule, AuthModule, CompaniesModule, JobsModule,
+    }), UsersModule, AuthModule, CompaniesModule, JobsModule, FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService,
