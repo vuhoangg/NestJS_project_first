@@ -28,7 +28,7 @@ export class CompaniesController {
     return this.companiesService.findAll(+currentPage,+limit, qs );
   }
 
-
+  @Version('1')
   @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -29,6 +29,8 @@ export class JobsController {
     return this.jobsService.findAll(+currentPage, +limit, qs );
   }
 
+
+
   @Version('1')
   @Patch(':id')
   update2(@Param('id') id: string, @Body() updateJobDto: UpdateJobDto, @User() user : IUser) {
@@ -36,7 +38,7 @@ export class JobsController {
   }
 
 
-  @Version('2')
+  @Version('1')
   @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {

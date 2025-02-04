@@ -11,6 +11,7 @@ import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { CompaniesModule } from './companies/companies.module';
 import { JobsModule } from './jobs/jobs.module';
 import { FilesModule } from './files/files.module';
+import { ResumesModule } from './resumes/resumes.module';
 
 
 
@@ -31,7 +32,7 @@ import { FilesModule } from './files/files.module';
  
     
     ConfigModule.forRoot({ isGlobal: true,
-    }), UsersModule, AuthModule, CompaniesModule, JobsModule, FilesModule,
+    }), UsersModule, AuthModule, CompaniesModule, JobsModule, FilesModule, ResumesModule,
   ],
   controllers: [AppController],
   providers: [AppService,
