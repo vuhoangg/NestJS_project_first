@@ -76,18 +76,13 @@ export class CompaniesService {
   }
 
   async update(id: string, updateCompanyDto: UpdateCompanyDto, user: IUser) {
-   // Kiểm tra tính hợp lệ của ID
    if (!mongoose.Types.ObjectId.isValid(id)) {
     return { message: 'Invalid user ID' };
   }
-
-  // Lấy user hiện tại trong cơ sở dữ liệu
   const existingCompany = await this.companyModel.findById(id);
   if (!existingCompany ) {
     return { message: 'User not found' };
   }
-
-
   // update
   const updatedCompany  = await this.companyModel.findByIdAndUpdate(
     id,
