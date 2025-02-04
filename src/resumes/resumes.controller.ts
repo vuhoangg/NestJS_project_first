@@ -40,9 +40,6 @@ export class ResumesController {
     return this.resumesService.findByUsers(user) ;
   }
 
-
-
-  
   @Version('1')
   @Delete(':id')
   remove(
