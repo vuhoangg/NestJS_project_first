@@ -14,9 +14,7 @@ export class PermissionsService {
 
   constructor(
     @InjectModel(Permission.name) 
-    private permissionModel: SoftDeleteModel<PermissionDocument>) {
-
-    }
+    private permissionModel: SoftDeleteModel<PermissionDocument>) {}
  
   async create(createPermissionDto: CreatePermissionDto, user: IUser) {
 

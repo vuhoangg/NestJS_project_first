@@ -10,11 +10,11 @@ export class CreateRoleDto {
     description : string ;
 
     @IsBoolean({message: " isActive type value Boolean "})
-    @IsNotEmpty({message: " isActive method cannot be blank"})
-    isActive : number;
+    @IsNotEmpty({message: " isActive cannot be blank"})
+    isActive : boolean;
 
     @IsNotEmpty({message: "module cannot be blank"})
-    @IsMongoId({message: 'each permisson is mongo object id '})
+    @IsMongoId({each : true,  message: 'each permisson is mongo object id '})
     @IsArray({message: 'permission has format is array  '})
-    permissions : mongoose.Schema.Types.ObjectId[] ;
+    permission : mongoose.Schema.Types.ObjectId[] ;
 }
