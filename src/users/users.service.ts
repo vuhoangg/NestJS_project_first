@@ -125,14 +125,14 @@ export class UsersService {
     if(!mongoose.Types.ObjectId.isValid(id)){
       return 'not found';
     }
-    return  await this.userModel.findOne({_id: id }).select("-password");
+    return  await this.userModel.findOne({_id: id })
+    .select("-password")
+    .populate({path: "role", select:{name :1 , id: 1}})
   }
 
   findOneByUsername(username: string) {
-    // if(!mongoose.Types.ObjectId.isValid(id)){
-    //   return 'not found';
-    // }
-    return  this.userModel.findOne({ email: username });
+    return  this.userModel.findOne({ email: username })
+    .populate({path: "role", select:{name :1 , permission: 1}})
   }
 
   
@@ -259,13 +259,16 @@ export class UsersService {
     if (!existingUser) {
       throw new BadRequestException(`Người dùng với ID ${id} không tồn tại`);
     }
-    console.log("check user ", user.role);
+    // check that account administrators cannot be permanently deleted
+    const foundUser = await this.userModel.findById(id);
+    if(foundUser.email === "longtran1@gmail.com"){
+      throw new BadRequestException("This account cannot be deleted");
+    }
   
-    // Kiểm tra quyền xóa
+    // check role delete 
     if (user.role !== 'ADMIN') {
       throw new ForbiddenException('Bạn không có quyền xóa người dùng này');
     }
-  
     await this.userModel.updateOne({
       _id : id 
     },

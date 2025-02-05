@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsNotEmptyObject, IsObject, IsString, MaxLength, MinLength, ValidateNested } from 'class-validator';
+import { IsEmail, IsMongoId, IsNotEmpty, IsNotEmptyObject, IsObject, IsString, MaxLength, MinLength, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import mongoose from 'mongoose';
 class Company {
@@ -31,7 +31,8 @@ export class CreateUserDto {
     gender : string ;
 
     @IsNotEmpty({message: "role cannot be blank"})
-    role : string ;
+    @IsMongoId({each : true,  message: 'each role is mongo object id '})
+    role : mongoose.Schema.Types.ObjectId ;
 
 
     @IsNotEmptyObject()

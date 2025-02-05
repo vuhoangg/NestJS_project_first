@@ -76,7 +76,7 @@ export class RolesService {
       return 'not found';
     }
     return  (await this.roleModel.findById(id)) 
-    .populate({ path: "permission" , select: {_id: 1 , apiPath: 1 , name: 1, method:1 } })
+    .populate({ path: "permission" , select: {_id: 1 , apiPath: 1 , name: 1, method:1, module:1  } })
   }
 
 
@@ -85,10 +85,10 @@ export class RolesService {
       return 'not found';
     }
     const {name, description, isActive, permission } = updateRoleDto ;
-    const isExist = await this.roleModel.findOne({name});
-    if(isExist){
-      throw new BadRequestException(`Role with name="${name}" existed `);
-    }
+    // const isExist = await this.roleModel.findOne({name});
+    // if(isExist){
+    //   throw new BadRequestException(`Role with name="${name}" existed `);
+    // }
     
     const updatedRole = await this.roleModel.updateOne(
       {_id : id},{
@@ -109,7 +109,11 @@ export class RolesService {
     if (!existingUser) {
       throw new BadRequestException(`User with ID ${id} does not exits`);
     }
-    console.log("check user ", user.role);
+     // check that Role cannot be permanently deleted
+     const foundUser = await this.roleModel.findById(id);
+     if(foundUser.name === "ADMIN"){
+       throw new BadRequestException("This account cannot be deleted");
+     }
     // check role by Delete 
     if (user.role !== 'ADMIN') {
       throw new ForbiddenException('You do not have permission to remove this user');
