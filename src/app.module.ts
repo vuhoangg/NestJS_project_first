@@ -14,6 +14,7 @@ import { FilesModule } from './files/files.module';
 import { ResumesModule } from './resumes/resumes.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { RolesModule } from './roles/roles.module';
+import { DatabasesModule } from './databases/databases.module';
 
 
 
@@ -34,7 +35,7 @@ import { RolesModule } from './roles/roles.module';
  
     
     ConfigModule.forRoot({ isGlobal: true,
-    }), UsersModule, AuthModule, CompaniesModule, JobsModule, FilesModule, ResumesModule, PermissionsModule, RolesModule,
+    }), UsersModule, AuthModule, CompaniesModule, JobsModule, FilesModule, ResumesModule, PermissionsModule, RolesModule, DatabasesModule,
   ],
   controllers: [AppController],
   providers: [AppService,
