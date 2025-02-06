@@ -142,7 +142,7 @@ export const INIT_PERMISSIONS = [
         "_id": "67a31bf0e6ba7d3c51d10f5a",
         "name": "Update User By Id",
         "apiPath": "/api/v1/users/:id",
-        "method": "UPDATE",
+        "method": "PATCH",
         "module": "USERS",
         "isDeleted": false,
         "createdBy": {
@@ -222,7 +222,7 @@ export const INIT_PERMISSIONS = [
         "_id": "67a31e4de6ba7d3c51d10f69",
         "name": "Update job By Id",
         "apiPath": "/api/v1/jobs/:id",
-        "method": "UPDATE",
+        "method": "PATCH",
         "module": "JOBS",
         "isDeleted": false,
         "createdBy": {
@@ -302,7 +302,7 @@ export const INIT_PERMISSIONS = [
         "_id": "67a31f6de6ba7d3c51d10f78",
         "name": "Update Resume By Id",
         "apiPath": "/api/v1/resumes/:id",
-        "method": "UPDATE",
+        "method": "PATCH",
         "module": "RESUMES",
         "isDeleted": false,
         "createdBy": {
@@ -382,7 +382,7 @@ export const INIT_PERMISSIONS = [
         "_id": "67a3211fb3b2beae59ca67e5",
         "name": "Update Permission By id",
         "apiPath": "/api/v1/permissions/:id",
-        "method": "UPDATE",
+        "method": "PATCH",
         "module": "PERMISSIONS",
         "isDeleted": false,
         "createdBy": {
@@ -462,7 +462,7 @@ export const INIT_PERMISSIONS = [
         "_id": "67a322f31ff5748d24102059",
         "name": "Update roles by id ",
         "apiPath": "/api/v1/roles/:id",
-        "method": "UPDATE",
+        "method": "PATCH",
         "module": "ROLES",
         "isDeleted": false,
         "createdBy": {

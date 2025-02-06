@@ -17,7 +17,7 @@ export class CompaniesController {
 
  
   @Version('1')
-  @Public()
+
   @Get()
   @ResponseMessage("Fetch list company with paginate")
   findAll2(
@@ -29,12 +29,13 @@ export class CompaniesController {
   }
 
   @Version('1')
-  @Public()
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.companiesService.findOne(id);
   }
 
+  @Version('1')
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto, @User() user : IUser) {
     return this.companiesService.update(id, updateCompanyDto, user );
