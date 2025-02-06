@@ -7,6 +7,7 @@ import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { IUser } from 'src/users/users.interface';
 import aqp from 'api-query-params';
 import mongoose from 'mongoose';
+import { ADMIN_ROLE } from 'src/databases/sample';
 
 @Injectable()
 export class RolesService {
@@ -111,7 +112,7 @@ export class RolesService {
     }
      // check that Role cannot be permanently deleted
      const foundUser = await this.roleModel.findById(id);
-     if(foundUser.name === "ADMIN"){
+     if(foundUser.name === ADMIN_ROLE){
        throw new BadRequestException("This account cannot be deleted");
      }
     // check role by Delete 

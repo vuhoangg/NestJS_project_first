@@ -85,7 +85,7 @@ export class DatabasesService implements OnModuleInit  {
                         age: 69,
                         gender:"MALE",
                         address: "VietNam",
-                        role: adminRole?.id
+                        role: userRole?.id
                     },
                 ])
             }

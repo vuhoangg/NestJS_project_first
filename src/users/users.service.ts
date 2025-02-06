@@ -11,6 +11,8 @@ import { IUser } from './users.interface';
 // import { User, User as UserDecorator} from 'src/decorator/customize';
 import { User } from 'src/decorator/customize';
 import aqp from 'api-query-params';
+import { USER_ROLE } from 'src/databases/sample';
+import { Role, RoleDocument } from 'src/roles/schemas/role.schema';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +20,11 @@ export class UsersService {
 
   constructor(
   @InjectModel(UserM.name) 
-  private userModel: SoftDeleteModel<UserDocument>) {}
+  private userModel: SoftDeleteModel<UserDocument>,
+  @InjectModel(Role.name) 
+    private roleModel: SoftDeleteModel<RoleDocument>
+
+  ) {}
 
   gethashPassword = (password: string) =>{
     const salt = genSaltSync(10);
@@ -73,6 +79,7 @@ export class UsersService {
     if (isExist){
       throw new BadRequestException(`The email ${email} đã tồn tại trên hệ thống ` );
     }
+    const userRole = await this.roleModel.findOne({name : USER_ROLE});
     const hashPassword = this.gethashPassword(password);
     let newRegister = await this.userModel.create({
      name,
@@ -80,7 +87,7 @@ export class UsersService {
       password :hashPassword , age,
        gender,
         address,
-        role: "USER"
+        role: userRole?.id,
     })
     return newRegister ;
    }
@@ -132,7 +139,9 @@ export class UsersService {
 
   findOneByUsername(username: string) {
     return  this.userModel.findOne({ email: username })
-    .populate({path: "role", select:{name :1 , permission: 1}})
+    .populate({
+      path: "role", 
+      select:{name :1}})
   }
 
   

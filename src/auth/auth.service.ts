@@ -6,12 +6,14 @@ import { IUser } from 'src/users/users.interface';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { Response  } from 'express'
 import * as ms from 'ms';
+import { RolesService } from 'src/roles/roles.service';
 @Injectable()
 export class AuthService {
     constructor(
       private usersService: UsersService,
       private jwtService: JwtService,
       private configService: ConfigService, 
+      private rolesService: RolesService
     
     ) 
     {}
@@ -23,7 +25,17 @@ export class AuthService {
         console.log("isValid check ", isValid);
         if(isValid === true)
         {
-            return user;
+          const userRole = user.role as unknown as { _id: string; name: string }
+          const temp = await this.rolesService.findOne(userRole._id);
+          // Kiểm tra xem temp có phải là "not found" không
+          if (temp === 'not found') {
+            return null; // Hoặc xử lý lỗi theo cách bạn muốn
+          }
+          const objUser ={
+            ...user.toObject(),
+            permission :temp?.permission ?? [],
+          }
+            return objUser;
         }
     }
 
@@ -31,7 +43,7 @@ export class AuthService {
     }
 
     async login(user: IUser, response: Response ) {
-      const { _id, name , email, role } = user ;
+      const { _id, name , email, role, permissions } = user ;
       const payload = { 
         sub: "Token login " ,
         iss: "from server ",
@@ -54,7 +66,7 @@ export class AuthService {
       return {
         access_token: this.jwtService.sign(payload, { expiresIn: jwtExpirationTime }),
         // refresh_token,
-        user:{  _id, name, email, role,},
+        user:{  _id, name, email, role, permissions},
       };
     }
 
