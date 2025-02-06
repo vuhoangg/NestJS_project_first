@@ -18,13 +18,13 @@ export class RolesService {
 
   async create(createRoleDto: CreateRoleDto, user : IUser ) {
 
-    const {name, description, isActive, permission } = createRoleDto ;
+    const {name, description, isActive, permissions } = createRoleDto ;
     const isExist = await this.roleModel.findOne({name});
     if(isExist){
       throw new BadRequestException(`Role with name="${name}" existed `);
     }
     const newRole = await this.roleModel.create({
-      name, description, isActive, permission ,
+      name, description, isActive, permissions ,
       createdBy:{
         _id : user._id,
         email: user.email 
@@ -77,7 +77,7 @@ export class RolesService {
       return 'not found';
     }
     return  (await this.roleModel.findById(id)) 
-    .populate({ path: "permission" , select: {_id: 1 , apiPath: 1 , name: 1, method:1, module:1  } })
+    .populate({ path: "permissions" , select: {_id: 1 , apiPath: 1 , name: 1, method:1, module:1  } })
   }
 
 
@@ -85,7 +85,7 @@ export class RolesService {
     if(!mongoose.Types.ObjectId.isValid(id)){
       return 'not found';
     }
-    const {name, description, isActive, permission } = updateRoleDto ;
+    const {name, description, isActive, permissions } = updateRoleDto ;
     // const isExist = await this.roleModel.findOne({name});
     // if(isExist){
     //   throw new BadRequestException(`Role with name="${name}" existed `);
@@ -93,7 +93,7 @@ export class RolesService {
     
     const updatedRole = await this.roleModel.updateOne(
       {_id : id},{
-        name, description, isActive, permission,
+        name, description, isActive, permissions,
         updatedBy:{
           _id : user._id,
           email: user.email 

@@ -33,7 +33,7 @@ export class AuthService {
           }
           const objUser ={
             ...user.toObject(),
-            permission :temp?.permission ?? [],
+            permissions :temp?.permissions ?? [],
           }
             return objUser;
         }

@@ -14,7 +14,7 @@ export class CreateRoleDto {
     isActive : boolean;
 
     @IsNotEmpty({message: "module cannot be blank"})
-    @IsMongoId({each : true,  message: 'each permisson is mongo object id '})
-    @IsArray({message: 'permission has format is array  '})
-    permission : mongoose.Schema.Types.ObjectId[] ;
+    @IsMongoId({each : true,  message: 'each permissons is mongo object id '})
+    @IsArray({message: 'permissions has format is array  '})
+    permissions : mongoose.Schema.Types.ObjectId[] ;
 }
