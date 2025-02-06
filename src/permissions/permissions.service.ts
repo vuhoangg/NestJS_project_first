@@ -105,9 +105,9 @@ findOne(id: string) {
     }
     console.log("check user ", user.role);
     // check role by Delete 
-    if (user.role !== 'ADMIN') {
-      throw new ForbiddenException('You do not have permission to remove this user');
-    }
+    // if (user.role !== 'ADMIN') {
+    //   throw new ForbiddenException('You do not have permission to remove this user');
+    // }
     await this.permissionModel.updateOne({
       _id : id 
     },

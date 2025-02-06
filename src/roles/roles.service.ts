@@ -115,9 +115,9 @@ export class RolesService {
        throw new BadRequestException("This account cannot be deleted");
      }
     // check role by Delete 
-    if (user.role !== 'ADMIN') {
-      throw new ForbiddenException('You do not have permission to remove this user');
-    }
+    // if (user.role !== 'ADMIN') {
+    //   throw new ForbiddenException('You do not have permission to remove this user');
+    // }
     await this.roleModel.updateOne({
       _id : id 
     },

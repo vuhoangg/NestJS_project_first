@@ -4,7 +4,18 @@ export interface IUser{
     _id: string ;
     name: string ;
     email: string ;
-    role: string ; 
+    // role: string ; 
+    role:{
+      _id: string ;
+      name: string;
+    };
+    permission?:{
+      _id: string;
+      name: string;
+      apiPath: string;
+      module: string ;
+    }[]
+
     gender: string;
     phone: string;
     Company : {

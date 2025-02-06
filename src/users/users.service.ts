@@ -266,7 +266,7 @@ export class UsersService {
     }
   
     // check role delete 
-    if (user.role !== 'ADMIN') {
+    if (user.role.name !== 'Group Admin') {
       throw new ForbiddenException('Bạn không có quyền xóa người dùng này');
     }
     await this.userModel.updateOne({

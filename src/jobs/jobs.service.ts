@@ -125,9 +125,9 @@ export class JobsService {
     console.log("check user ", user.role);
   
     // check role by Delete 
-    if (user.role !== 'ADMIN') {
-      throw new ForbiddenException('Bạn không có quyền xóa người dùng này');
-    }
+    // if (user.role !== 'ADMIN') {
+    //   throw new ForbiddenException('Bạn không có quyền xóa người dùng này');
+    // }
   
     await this.jobModel.updateOne({
       _id : id 

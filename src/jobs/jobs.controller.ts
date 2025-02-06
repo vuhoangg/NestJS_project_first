@@ -18,7 +18,6 @@ export class JobsController {
   ) {
     return this.jobsService.create(createJobDto, user);
   }
-
   @Version('1')
   @Public()
   @Get()
@@ -44,8 +43,6 @@ export class JobsController {
     return this.jobsService.findOne(id);
   }
 
-
- 
   @Version('1')
   @Patch()
   async update(
