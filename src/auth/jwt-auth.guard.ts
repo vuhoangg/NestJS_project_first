@@ -1,11 +1,13 @@
 
 import {
     ExecutionContext,
+    ForbiddenException,
     Injectable,
     UnauthorizedException,
   } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-  import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '@nestjs/passport';
+import {Request} from 'express';
 import { IS_PUBLIC_KEY } from 'src/decorator/customize';
   
   @Injectable()
@@ -25,7 +27,9 @@ import { IS_PUBLIC_KEY } from 'src/decorator/customize';
         return super.canActivate(context);
       }
   
-    handleRequest(err, user, info) {
+    handleRequest(err, user, info, context: ExecutionContext) {
+
+      const request: Request = context.switchToHttp().getRequest();
    
     if (err) {
       console.error('Lỗi phát sinh trong quá trình xác thực:', err.message);
@@ -43,6 +47,14 @@ import { IS_PUBLIC_KEY } from 'src/decorator/customize';
         throw new UnauthorizedException('Cannot authenticate. Please try again .');
       }
     }
+
+    const targetMethod = request.method;
+    const targetEndpoint = request.route?.path;
+    const permissions = user?.permissions ?? [];
+    const isExist = permissions.find(permission => targetMethod === permission.method && targetEndpoint === permission.apiPath )
+      if(!isExist){
+        throw new ForbiddenException (" Bạn không có quyền truy cập endpoint này ")
+      }
       return user;
     }
   }

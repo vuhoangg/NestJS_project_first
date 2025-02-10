@@ -3,12 +3,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IUser } from 'src/users/users.interface';
+import { RolesService } from 'src/roles/roles.service';
 
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private configService: ConfigService,
+    private rolesService :RolesService 
     
 
   ) {
@@ -22,6 +24,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: IUser) {
-    return { _id: payload._id,  name: payload.name, email : payload.email ,  role: payload.role,};
+    const {_id, name , email, role } = payload ;
+    const userRole = role as unknown as { _id: string; name: string }
+    const temp = (await this.rolesService.findOne(userRole._id));
+    // Kiểm tra xem temp có phải là "not found" không
+    if (temp === 'not found') {
+      return null; // Hoặc xử lý lỗi theo cách bạn muốn
+    }
+    const roleObject = temp.toObject ? temp.toObject() : temp;
+  
+    return { _id,  name, email ,  role,  permissions :roleObject?.permissions ?? [],};
   }
 }
