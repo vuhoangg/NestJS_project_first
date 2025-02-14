@@ -28,16 +28,12 @@ import { IS_PUBLIC_KEY } from 'src/decorator/customize';
       }
   
     handleRequest(err, user, info, context: ExecutionContext) {
-
       const request: Request = context.switchToHttp().getRequest();
-   
     if (err) {
       console.error('Lỗi phát sinh trong quá trình xác thực:', err.message);
       throw new UnauthorizedException('Authentication Error , Please check again');
     }
-
     if (!user) {
-      // Log thông tin về lỗi (ví dụ: token hết hạn, không hợp lệ, v.v.)
       console.error('Thông tin lỗi:', info?.message || 'Không có thông tin lỗi');
       if (info?.name === 'TokenExpiredError') {
         throw new UnauthorizedException('Token has expired. Please login again ');
@@ -49,9 +45,11 @@ import { IS_PUBLIC_KEY } from 'src/decorator/customize';
     }
 
     const targetMethod = request.method;
-    const targetEndpoint = request.route?.path;
+    const targetEndpoint = request.route?.path as string ;
     const permissions = user?.permissions ?? [];
-    const isExist = permissions.find(permission => targetMethod === permission.method && targetEndpoint === permission.apiPath )
+    let isExist = permissions.find(permission => targetMethod === permission.method && targetEndpoint === permission.apiPath )
+
+    if(targetEndpoint.startsWith("/api/v1/auth")){ isExist = true ;}
       if(!isExist){
         throw new ForbiddenException (" Bạn không có quyền truy cập endpoint này ")
       }

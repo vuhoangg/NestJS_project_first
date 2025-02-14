@@ -27,12 +27,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const {_id, name , email, role } = payload ;
     const userRole = role as unknown as { _id: string; name: string }
     const temp = (await this.rolesService.findOne(userRole._id));
-    // Kiểm tra xem temp có phải là "not found" không
     if (temp === 'not found') {
-      return null; // Hoặc xử lý lỗi theo cách bạn muốn
+      return null; 
     }
     const roleObject = temp.toObject ? temp.toObject() : temp;
-  
     return { _id,  name, email ,  role,  permissions :roleObject?.permissions ?? [],};
   }
 }

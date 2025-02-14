@@ -25,9 +25,10 @@ export class AuthService {
         console.log("isValid check ", isValid);
         if(isValid === true)
         {
+          // get information of role with user =>userRole 
           const userRole = user.role as unknown as { _id: string; name: string }
-          const temp = await this.rolesService.findOne(userRole._id);
-          // Kiểm tra xem temp có phải là "not found" không
+          const temp = await this.rolesService.findOne(userRole._id);// get Role by id 
+          // 
           if (temp === 'not found') {
             return null; // Hoặc xử lý lỗi theo cách bạn muốn
           }
@@ -61,11 +62,10 @@ export class AuthService {
       httpOnly :true,
        maxAge: 36000000
     })
-    // Lấy thời gian hết hạn từ ConfigService
+    // get date expire with configService 
     const jwtExpirationTime = this.configService.get<string>('JWT_EXPIRE')  ;
       return {
         access_token: this.jwtService.sign(payload, { expiresIn: jwtExpirationTime }),
-        // refresh_token,
         user:{  _id, name, email, role, permissions},
       };
     }

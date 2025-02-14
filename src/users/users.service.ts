@@ -26,7 +26,7 @@ export class UsersService {
 
   ) {}
 
-  gethashPassword = (password: string) =>{
+   gethashPassword = (password: string) =>{
     const salt = genSaltSync(10);
     const hash = hashSync(password, salt);
     return hash;
@@ -151,6 +151,7 @@ export class UsersService {
     console.log("Input Password:", password);
     console.log("Hashed Password:", hash);
     const result = compareSync(password, hash);
+    //true if matching, otherwise false
     const hash2 =  this.gethashPassword(password);
     console.log("Password match result compare2 : " , compareSync(password, hash2) );
     console.log("Password match result:", result);
